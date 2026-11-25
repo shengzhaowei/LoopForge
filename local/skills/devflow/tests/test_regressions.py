@@ -368,6 +368,12 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn("cleanup_team.py", adapter)
         self.assertIn("不得读取 Team 配置、成员、inbox 或状态", adapter)
 
+    def test_design_implementation_passes_design_context_to_validator(self):
+        doc = (SKILL_ROOT / "references/design-implementation.md").read_text(encoding="utf-8")
+        # validate_design_artifacts.py 要求传入 design_context 位置参数，
+        # 文档里的调用必须带上第 5 步约定的设计上下文目录。
+        self.assertIn("validate_design_artifacts.py 02-design/design-context", doc)
+
     def fill_stage_artifacts(self, state_path, stage):
         state = json.loads(state_path.read_text(encoding="utf-8"))
         artifact_root = Path(state["artifacts_dir"])
