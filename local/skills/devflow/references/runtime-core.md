@@ -18,6 +18,10 @@
 
 - CodeBuddy 提供 `task|team_create|send_message|team_delete|use_skill`：加载 [adapters/codebuddy/adapter.md](../adapters/codebuddy/adapter.md)，使用 Team member 拓扑；不得把普通 task subagent 当成阶段执行者。
 - Codex 提供 `spawn_agent|send_message|wait_agent`：加载 [adapters/codex/adapter.md](../adapters/codex/adapter.md)。
+- Cursor 提供 `Task`：加载 [adapters/cursor/adapter.md](../adapters/cursor/adapter.md)，使用前台 subagent 拓扑；仅在当前会话实际提供 `Task` 时使用。
+- Claude Code 提供 `Agent`：加载 [adapters/claude/adapter.md](../adapters/claude/adapter.md)，使用前台 subagent 拓扑；自定义 subagent 不继承主会话历史，协调者必须提供完整阶段提示。
+- Pi 提供 `subagent`：加载 [adapters/pi/adapter.md](../adapters/pi/adapter.md)，使用前台阻塞 spawn 拓扑；没有 `subagent` 工具时只能降级为 `single-context`。
+- DSH 提供 `subagent`：加载 [adapters/dsh/adapter.md](../adapters/dsh/adapter.md)，使用 subagent 拓扑；返回的子 Agent 名称即 `executor_id`，没有 `subagent` 工具时必须降级为 `single-context`。
 - Hermes Agent 提供 `delegate_task`：加载 [adapters/hermes/adapter.md](../adapters/hermes/adapter.md)，使用 delegation spawn 拓扑；只把宿主返回的 `delegation_id`（或等价句柄）登记为 executor ID。
 - 没有受支持的生命周期 API：先报告限制并记录 `fallback_reason`，之后才能使用 `single-context`。
 

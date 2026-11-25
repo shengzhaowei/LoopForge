@@ -368,6 +368,15 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn("cleanup_team.py", adapter)
         self.assertIn("不得读取 Team 配置、成员、inbox 或状态", adapter)
 
+    def test_runtime_core_lists_all_supported_adapters(self):
+        core = (SKILL_ROOT / "references/runtime-core.md").read_text(encoding="utf-8")
+        for host in ("codebuddy", "codex", "cursor", "claude", "pi", "dsh", "hermes"):
+            self.assertIn(f"adapters/{host}/adapter.md", core)
+        self.assertIn("Cursor 提供 `Task`", core)
+        self.assertIn("Claude Code 提供 `Agent`", core)
+        self.assertIn("Pi 提供 `subagent`", core)
+        self.assertIn("DSH 提供 `subagent`", core)
+
     def fill_stage_artifacts(self, state_path, stage):
         state = json.loads(state_path.read_text(encoding="utf-8"))
         artifact_root = Path(state["artifacts_dir"])
