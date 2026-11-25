@@ -368,6 +368,15 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn("cleanup_team.py", adapter)
         self.assertIn("不得读取 Team 配置、成员、inbox 或状态", adapter)
 
+    def test_skills_readme_documents_install_paths(self):
+        readme = (SKILL_ROOT.parent / "README.md").read_text(encoding="utf-8")
+        # 源码安装命令必须指向仓库内的实际位置 local/skills/devflow。
+        self.assertIn("<本仓库绝对路径>/local/skills/devflow", readme)
+        self.assertNotIn("<本仓库绝对路径>/devflow", readme)
+        # 自测命令以 local/skills 为工作目录，且不再引用仓库外不存在的脚本。
+        self.assertIn("在 `local/skills` 目录下运行", readme)
+        self.assertNotIn("quick_validate.py", readme)
+
     def fill_stage_artifacts(self, state_path, stage):
         state = json.loads(state_path.read_text(encoding="utf-8"))
         artifact_root = Path(state["artifacts_dir"])

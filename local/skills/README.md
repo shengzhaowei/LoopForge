@@ -56,8 +56,8 @@ Hermes Agent 使用项目级 `.hermes/skills/`，安装后在项目根目录执�
 
 ```bash
 mkdir -p <项目目录>/.codebuddy/skills
-ln -s <本仓库绝对路径>/devflow <项目目录>/.codebuddy/skills/devflow
-python3 <本仓库绝对路径>/devflow/adapters/codebuddy/install.py \
+ln -s <本仓库绝对路径>/local/skills/devflow <项目目录>/.codebuddy/skills/devflow
+python3 <本仓库绝对路径>/local/skills/devflow/adapters/codebuddy/install.py \
   --project-root <项目目录> \
   --refresh-managed
 ```
@@ -72,7 +72,7 @@ medium/large 会为每次运行创建一个 `multi-agents-devflow-<task-slug>-<r
 ### Cursor
 
 ```bash
-python3 <本仓库绝对路径>/devflow/scripts/install_adapter.py \
+python3 <本仓库绝对路径>/local/skills/devflow/scripts/install_adapter.py \
   --adapter cursor \
   --project-root <项目目录> \
   --refresh-managed
@@ -85,7 +85,7 @@ python3 <本仓库绝对路径>/devflow/scripts/install_adapter.py \
 ### Claude Code
 
 ```bash
-python3 <本仓库绝对路径>/devflow/scripts/install_adapter.py \
+python3 <本仓库绝对路径>/local/skills/devflow/scripts/install_adapter.py \
   --adapter claude \
   --project-root <项目目录> \
   --refresh-managed
@@ -155,12 +155,11 @@ python3 <Skill 路径>/scripts/workflow_state.py validate --state <state-path>
 
 ## 自测与评测
 
-修改 Skill 后运行：
+修改 Skill 后，在 `local/skills` 目录下运行：
 
 ```bash
 python3 devflow/scripts/validate_config.py
 python3 -m unittest discover -s devflow/tests -v
-python3 <skill-creator 路径>/scripts/quick_validate.py devflow
 ```
 
 回归测试覆盖：Markdown 代码块标题误判、执行计划合同、项目指令发现、阶段提示自检、错误宿主 Agent 拒绝、resume 建议，以及不创建需求/总结子 Agent 的完整 medium 生命周期。另有 CLI E2E 用例覆盖真实临时项目、代码测试、阶段提示生成、产物门禁和流程完成。真实任务跑完后，再对其 `workflow-state.json` 执行 `validate`，检查实际产物和宿主交接。
